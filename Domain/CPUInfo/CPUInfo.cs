@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public interface IConfigRepository
-    {
-    }
+    public record CPUInfoThreadCount(int Value);
+
+    public record CPUInfo(
+        CPUInfoThreadCount threadCount
+    );
 }
