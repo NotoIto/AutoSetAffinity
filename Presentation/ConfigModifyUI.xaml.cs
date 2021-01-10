@@ -19,7 +19,7 @@ namespace Presentation
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ConfigModifyUI : Window
+    public partial class ConfigModifyUI : MahApps.Metro.Controls.MetroWindow
     {
         public ConfigModifyUI()
         {
