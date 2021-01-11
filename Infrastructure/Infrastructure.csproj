@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Optional" Version="4.0.0" />
+    <PackageReference Include="System.Management" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

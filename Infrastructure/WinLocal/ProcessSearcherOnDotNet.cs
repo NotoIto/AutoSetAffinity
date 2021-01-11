@@ -6,7 +6,7 @@ using DotNetProcess = System.Diagnostics.Process;
 
 namespace Infrastructure
 {
-    public class ProcessRepositoryOnDotNet : IProcessRepository
+    public class ProcessSearcherOnDotNet : IProcessSearcher
     {
         public Option<Process[], DomainDefinedError> FindAll()
         {
@@ -20,7 +20,7 @@ namespace Infrastructure
                     )
                  )
                 .ToArray();
-            return findAll.ToOptionSystemError("ProcessRepositoryOnDotNet.FindAll()");
+            return findAll.ToOptionSystemError("ProcessSearcherOnDotNet.FindAll()");
         }
 
         public Option<Process[], DomainDefinedError> FindAllBy(ProcessName processName)
@@ -35,7 +35,7 @@ namespace Infrastructure
                     )
                  )
                 .ToArray();
-            return findAllBy.ToOptionSystemError($"ProcessRepositoryOnDotNet.FindAllBy({processName})");
+            return findAllBy.ToOptionSystemError($"ProcessSearcherOnDotNet.FindAllBy({processName})");
         }
     }
 }

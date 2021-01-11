@@ -18,14 +18,14 @@ namespace Application
             {
                 configRepository = new ConfigRepositoryOnJsonFile();
                 cpuAffinityRepository = new CPUAffinityRepositoryOnDotNet();
-                processRepository = new ProcessRepositoryOnDotNet();
-                cpuInfoRepository = new CPUInfoRepositoryOnDotNet();
+                processSearcher = new ProcessSearcherOnDotNet();
+                cpuInfoSearcher = new CPUInfoSearcherOnDotNet();
             }
         }
         protected IConfigRepository configRepository;
         protected ICPUAffinityRepository cpuAffinityRepository;
-        protected IProcessRepository processRepository;
-        protected ICPUInfoRepository cpuInfoRepository;
+        protected IProcessSearcher processSearcher;
+        protected ICPUInfoSearcher cpuInfoSearcher;
 
         /*public Option<int, DomainDefinedError> Execute()
         {

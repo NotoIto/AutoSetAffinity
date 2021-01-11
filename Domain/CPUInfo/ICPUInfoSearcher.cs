@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public interface ICPUInfoRepository
+    public interface ICPUInfoSearcher
     {
         Option<CPUInfo, DomainDefinedError> Read();
     }

@@ -1,10 +1,9 @@
-﻿using Domain;
-using System.Text.Json;
-using Optional;
+﻿using System.Text.Json;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.IO;
 using System.Text;
+using System;
 
 namespace Infrastructure
 {
@@ -21,20 +20,27 @@ namespace Infrastructure
             ReadCommentHandling = JsonCommentHandling.Skip, //TODO: Allowにできないか？
             AllowTrailingCommas = true,
         };
-        public readonly string filePath = @$"";//TODO
+        private static readonly string APP_DATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        public readonly string filePath = Path.Combine(APP_DATA_PATH, "ProcessMarker", "config.json");
+
         protected string CreateDirectory()
         {
-            //TODO
-            return filePath;
+            var directoryName = Path.GetDirectoryName(filePath);
+            if(!Directory.Exists(directoryName))
+                Directory.CreateDirectory(directoryName);
+            return directoryName;
         }
+
         protected string Serialize<T>(T item)
         {
             return JsonSerializer.Serialize(item, jsonSerializerOptions);
         }
+
         protected T Deserialize<T>(string json)
         {
             return JsonSerializer.Deserialize<T>(json, jsonSerializerOptions);
         }
+
         protected string ReadTextFile()
         {
             using(StreamReader sr = new StreamReader(filePath, new UTF8Encoding(true)))
@@ -42,6 +48,7 @@ namespace Infrastructure
                 return sr.ReadToEnd();
             }
         }
+
         protected string WriteTextFile(string text)
         {
             using(StreamWriter sw = new StreamWriter(filePath, false, new UTF8Encoding(true)))

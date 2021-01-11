@@ -18,7 +18,6 @@ namespace Infrastructure
                 return cpuAffinity;
             };
             return update.ToOptionSystemError($"CPUAffinityRepositoryOnDotNet.Update({cpuAffinity}, {process})");
-
         }
     }
 }

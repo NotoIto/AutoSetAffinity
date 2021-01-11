@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public record CPUInfoThreadCount(int Value);
+    public record CPUInfoPhysicalProcessors(uint Value);
+    public record CPUInfoLogicalProcessors(uint Value);
 
     public record CPUInfo(
-        CPUInfoThreadCount threadCount
+        CPUInfoPhysicalProcessors PhysicalProcessors,
+        CPUInfoLogicalProcessors LogicalProcessors
     );
 }

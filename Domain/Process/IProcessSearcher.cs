@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public interface IProcessRepository
+    public interface IProcessSearcher
     {
         Option<Process[], DomainDefinedError> FindAllBy(ProcessName processName);
         Option<Process[], DomainDefinedError> FindAll();
