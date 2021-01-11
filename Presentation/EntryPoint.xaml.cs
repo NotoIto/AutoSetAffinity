@@ -11,7 +11,7 @@ namespace Presentation
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class EntryPoint : System.Windows.Application
+    public partial class EntryPoint : Application
     {
     }
 }

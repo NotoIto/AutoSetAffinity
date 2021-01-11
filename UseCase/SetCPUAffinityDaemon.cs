@@ -8,7 +8,7 @@ using Infrastructure;
 using Optional;
 using Optional.Linq;
 
-namespace Application
+namespace UseCase
 {
     public class SetCPUAffinityDaemon
     {
