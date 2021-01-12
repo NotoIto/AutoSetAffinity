@@ -11,19 +11,23 @@ namespace Domain
         public SystemError(string message, Exception e) : base($"SystemError({message})", e) { }
     }
 
-    public static class Try2OptionSystemError
-    {
-        public static Option<TResult, DomainDefinedError> ToOptionSystemError<TResult>(this Func<TResult> tryFunction, string message)
+    public static class TryUtil    {
+        public static Option<TResult, Exception> Try<TResult>(Func<TResult> tryFunction)
         {
             try
             {
-                var result = tryFunction();
-                return Option.Some<TResult, DomainDefinedError>(result);
+                return Option.Some<TResult, Exception>(tryFunction());
             }
             catch (Exception e)
             {
-                return Option.None<TResult, DomainDefinedError>(new SystemError(message, e));
+                return Option.None<TResult, Exception>(e);
             }
         }
+
+        public static Option<TResult, DomainDefinedError> ToOptionSystemError<TResult>(this Option<TResult, Exception> tryOption, string message) =>
+            tryOption.Match(
+                some: r => Option.Some<TResult, DomainDefinedError>(r),
+                none: e => Option.None<TResult, DomainDefinedError>(new SystemError($"SystemError({message})", e))
+            );
     }
 }

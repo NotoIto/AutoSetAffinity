@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigModify", "Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetCPUAffinityDaemon", "SetCPUAffinityDaemon\SetCPUAffinityDaemon.csproj", "{5F384B84-5B63-4DCD-B8F1-CEB6E2282567}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainSpec", "DomainSpec\DomainSpec.csproj", "{E6363738-8FE6-4DEC-A0EB-1E580A58ACDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{5F384B84-5B63-4DCD-B8F1-CEB6E2282567}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F384B84-5B63-4DCD-B8F1-CEB6E2282567}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F384B84-5B63-4DCD-B8F1-CEB6E2282567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6363738-8FE6-4DEC-A0EB-1E580A58ACDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6363738-8FE6-4DEC-A0EB-1E580A58ACDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6363738-8FE6-4DEC-A0EB-1E580A58ACDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6363738-8FE6-4DEC-A0EB-1E580A58ACDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
