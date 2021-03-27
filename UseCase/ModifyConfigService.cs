@@ -1,29 +1,25 @@
-﻿using System;
+﻿using Domain;
+using Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain;
-using Infrastructure;
-using Optional;
-using Optional.Linq;
 
 namespace UseCase
 {
-    public class SetCPUAffinityDaemon
+    public class ModifyConfigService
     {
-        public class App : SetCPUAffinityDaemon
+        public class App : SetCPUAffinityService
         {
             public App()
             {
                 configRepository = new ConfigRepositoryOnJsonFile();
-                cpuAffinityRepository = new CPUAffinityRepositoryOnDotNet();
                 processSearcher = new ProcessSearcherOnDotNet();
                 cpuInfoSearcher = new CPUInfoSearcherOnDotNet();
             }
         }
         protected IConfigRepository configRepository;
-        protected ICPUAffinityRepository cpuAffinityRepository;
         protected IProcessSearcher processSearcher;
         protected ICPUInfoSearcher cpuInfoSearcher;
 
