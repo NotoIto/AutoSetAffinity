@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainSpec", "DomainSpec\DomainSpec.csproj", "{E6363738-8FE6-4DEC-A0EB-1E580A58ACDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessMarkerDaemon", "Presentation\ProcessMarkerDaemon\ProcessMarkerDaemon.csproj", "{4D7E37FB-304A-47D6-ACE8-30C744ADE0E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessMarkerDaemon", "Presentation\ProcessMarkerDaemon\ProcessMarkerDaemon.csproj", "{4D7E37FB-304A-47D6-ACE8-30C744ADE0E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessMarkerConfigurator", "Presentation\ProcessMarkerConfigurator\ProcessMarkerConfigurator.csproj", "{2FDB8D5A-A074-48DE-8466-BD788B200D45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessMarkerConfigurator", "Presentation\ProcessMarkerConfigurator\ProcessMarkerConfigurator.csproj", "{2FDB8D5A-A074-48DE-8466-BD788B200D45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
