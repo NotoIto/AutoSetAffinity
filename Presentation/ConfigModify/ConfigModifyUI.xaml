@@ -6,49 +6,58 @@
         xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="AutoSetAffinity" Height="268" Width="178">
-    <StackPanel Margin="10">
-        <Label Content="_Polling Interval[sec]:" Target="{Binding ElementName=txtPollingInterval}" />
-        
-        <StackPanel Margin="5">
-            <Label Content="_Process list:" Target="{Binding ElementName=txtProcessList}" />
-        <ToggleButton Loaded="ToggleButton_Loaded" Margin="15,5,15,20">
-            <ToggleButton.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Save" />
-                    <MenuItem Header="Print" />
-                    <Separator />
-                    <MenuItem Header="Exit" />
-                </ContextMenu>
-            </ToggleButton.ContextMenu>
-            <WrapPanel Margin="5,0">
-                <TextBlock Text="MENU"/>
-                <Border Width="8"/>
-                <Path Width="14" Height="4" Stretch="Fill" Fill="Black" Data="F1 M0,0 L10,0 L5,10 Z "/>
-            </WrapPanel>
-        </ToggleButton>
+        Title="AutoSetAffinity" Height="495" Width="565" FontFamily="Yu Gothic UI" FontSize="24" Background="#FFF0F0F0">
+    <StackPanel Margin="10,-9,10,29">
 
-        <Label Content="_Enable CPU core:" Target="{Binding ElementName=txtCPUAffinity}" Height="24" />
-        <ListBox Margin="15,5,15,15"
-                 ItemsSource="{Binding Items}"
-                 SelectionMode="Multiple" Height="100">
-            <ListBox.Resources>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="OverridesDefaultStyle" Value="true" />
-                    <Setter Property="SnapsToDevicePixels" Value="true" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <CheckBox Margin="5,2"
+        <StackPanel Margin="5"/>
+        <mahApps:MetroAnimatedSingleRowTabControl Height="449" FontStyle="Normal" FontWeight="Normal">
+            <TabItem Header="アプリ別設定" FontFamily="Yu Gothic UI" FontSize="24" Background="#FFF0F0F0">
+                <Grid Background="White" Height="423">
+                    <Label Content="_アプリ:" Target="{Binding ElementName=txtProcessList}" Margin="0,0,393,383" FontSize="20" />
+                    <ToggleButton Loaded="ToggleButton_Loaded" Margin="4,63,397,13">
+                        <ToggleButton.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Save" />
+                                <MenuItem Header="Print" />
+                                <Separator />
+                                <MenuItem Header="Exit" />
+                            </ContextMenu>
+                        </ToggleButton.ContextMenu>
+                        <WrapPanel Margin="5,0">
+                            <TextBlock Text="MENU"/>
+                            <Border Width="8"/>
+                            <Path Width="14" Height="4" Stretch="Fill" Fill="Black" Data="F1 M0,0 L10,0 L5,10 Z "/>
+                        </WrapPanel>
+                    </ToggleButton>
+                    <Label Content="_有効コア:" Target="{Binding ElementName=txtCPUAffinity}" Margin="282,152,63,239" FontSize="16" />
+                    <ListBox Margin="282,189,33,61"
+                 SelectionMode="Multiple">
+                        <ListBox.Resources>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="OverridesDefaultStyle" Value="true" />
+                                <Setter Property="SnapsToDevicePixels" Value="true" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <CheckBox Margin="5,2"
                                           IsChecked="{TemplateBinding IsSelected}">
-                                    <ContentPresenter />
-                                </CheckBox>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.Resources>
-        </ListBox>
-        </StackPanel>
+                                                <ContentPresenter />
+                                            </CheckBox>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.Resources>
+                        <StackPanel Height="100" Width="100"/>
+                    </ListBox>
+                    <Label Content="_有効CCX:" Target="{Binding ElementName=txtEnabledCCX}" Margin="273,80,72,311" FontSize="16" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="全体設定" FontFamily="Yu Gothic UI" FontSize="24" Background="#FFF0F0F0">
+                <Grid Background="White" Height="420">
+                    <Label Content="_ポーリング間隔[秒]:" Target="{Binding ElementName=txtPollingInterval}" Margin="0,18,0,360" FontSize="24" FontFamily="Yu Gothic UI" />
+                </Grid>
+            </TabItem>
+        </mahApps:MetroAnimatedSingleRowTabControl>
     </StackPanel>
 </mahApps:MetroWindow>
