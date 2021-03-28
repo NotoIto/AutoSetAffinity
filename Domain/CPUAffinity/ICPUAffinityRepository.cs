@@ -3,6 +3,6 @@ namespace Domain
 {
     public interface ICPUAffinityRepository
     {
-        Option<CPUAffinity, DomainDefinedError> Update(CPUAffinity cpuAffinity, Process process);
+        Option<Process, DomainDefinedError> Update(Process process, CPUAffinity cpuAffinity);
     }
 }

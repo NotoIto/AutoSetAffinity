@@ -1,21 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Domain
 {
     public class Config
     {
         public record SchemaVersion(uint Value);
         public record PollingInterval(uint Value);
-        public record CPUAffinityByProcess(ProcessName ProcessName, CPUAffinity CPUAffinity);
+        public record ConfigByProcessName(
+            CPUAffinity CPUAffinity
+        );
 
-        public readonly SchemaVersion schemaVersion;
+        public static readonly SchemaVersion schemaVersion = new SchemaVersion(1);
         public readonly PollingInterval pollingInterval;
-        public readonly CPUAffinityByProcess[] cpuAffinityByProcesses;
+        public readonly Dictionary<ProcessName, ConfigByProcessName> configByProcessNameDictionary = new Dictionary<ProcessName, ConfigByProcessName>();
 
-        public Config(SchemaVersion schemaVersion, PollingInterval pollingInterval, CPUAffinityByProcess[] cpuAffinityByProcesses)
+        public class SchemaVersionMismatchException : Exception
         {
-            this.schemaVersion = schemaVersion;
+            public SchemaVersionMismatchException(SchemaVersion correctSchemaVersion, SchemaVersion givenSchemaVersion)
+                :base($"SchemaVersionMismatchException: correctSchemaVersion:{correctSchemaVersion} givenSchemaVersion:{givenSchemaVersion}")
+            {
+            }
+        }
+        public Config(SchemaVersion schemaVersion, PollingInterval pollingInterval, Dictionary<ProcessName, ConfigByProcessName> configByProcessNameDictionary)
+        {
+            if (Config.schemaVersion != schemaVersion)
+                throw new SchemaVersionMismatchException(
+                    correctSchemaVersion: Config.schemaVersion,
+                    givenSchemaVersion: schemaVersion
+                );
             this.pollingInterval = pollingInterval;
-            this.cpuAffinityByProcesses = cpuAffinityByProcesses;
+            this.configByProcessNameDictionary = configByProcessNameDictionary;
         }
     }
 }

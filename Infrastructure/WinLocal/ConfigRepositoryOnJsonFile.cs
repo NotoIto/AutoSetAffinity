@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Domain;
@@ -8,19 +9,15 @@ namespace Infrastructure
 {
     public class ConfigRepositoryOnJsonFile : JsonFileWrapper, IConfigRepository
     {
-        public class CPUAffinityByProcessJsonItem
+        public class ConfigByProcessNameJsonItem
         {
-            [JsonPropertyName("process_name")]
-            public readonly string processName;
             [JsonPropertyName("cpu_affinity")]
             public readonly bool[] cpuAffinity;
 
-            public CPUAffinityByProcessJsonItem(
-                string processName,
+            public ConfigByProcessNameJsonItem(
                 bool[] cpuAffinity
                 )
             {
-                this.processName = processName;
                 this.cpuAffinity = cpuAffinity;
             }
         }
@@ -30,18 +27,18 @@ namespace Infrastructure
             public readonly uint schemaVersion;
             [JsonPropertyName("polling_interval")]
             public readonly uint pollingInterval;
-            [JsonPropertyName("cpu_affinity_by_process")]
-            public readonly CPUAffinityByProcessJsonItem[] cpuAffinityByProcesses;
+            [JsonPropertyName("by_process")]
+            public readonly Dictionary<string, ConfigByProcessNameJsonItem> configByProcessNameDictionary;
 
             public ConfigJsonItem(
                 uint schemaVersion,
                 uint pollingInterval,
-                CPUAffinityByProcessJsonItem[] cpuAffinityByProcesses
+                 Dictionary<string, ConfigByProcessNameJsonItem> configByProcessNameDictionary
                 )
             {
                 this.schemaVersion = schemaVersion;
                 this.pollingInterval = pollingInterval;
-                this.cpuAffinityByProcesses = cpuAffinityByProcesses;
+                this.configByProcessNameDictionary = configByProcessNameDictionary;
             }
         }
 
@@ -50,20 +47,19 @@ namespace Infrastructure
                 () =>
                     {
                         var config = new Config(
-                            schemaVersion: new Config.SchemaVersion(1),
-                            pollingInterval: new Config.PollingInterval(5),
-                            cpuAffinityByProcesses: new Config.CPUAffinityByProcess[0]
+                            schemaVersion: Config.schemaVersion,
+                            pollingInterval: new Config.PollingInterval(5000),
+                            configByProcessNameDictionary: new Dictionary<ProcessName, Config.ConfigByProcessName>()
                         );
                         var jsonItem = new ConfigJsonItem(
-                            schemaVersion: config.schemaVersion.Value,
+                            schemaVersion: Config.schemaVersion.Value,
                             pollingInterval: config.pollingInterval.Value,
-                            cpuAffinityByProcesses: config.cpuAffinityByProcesses.Select(
-                                cpuAffinityByProcess => new CPUAffinityByProcessJsonItem(
-                                    processName: cpuAffinityByProcess.ProcessName.Value,
-                                    cpuAffinity: cpuAffinityByProcess.CPUAffinity.Value
+                            configByProcessNameDictionary: config.configByProcessNameDictionary.ToDictionary(
+                                configByProcess => configByProcess.Key.Value,
+                                configByProcess => new ConfigByProcessNameJsonItem(
+                                    cpuAffinity: configByProcess.Value.CPUAffinity.Value
                                 )
                             )
-                            .ToArray()
                         );
                         var jsonText = Serialize(jsonItem);
                         CreateDirectory();
@@ -82,14 +78,12 @@ namespace Infrastructure
                         return new Config(
                             schemaVersion: new Config.SchemaVersion(jsonItem.schemaVersion),
                             pollingInterval: new Config.PollingInterval(jsonItem.pollingInterval),
-                            cpuAffinityByProcesses: jsonItem.cpuAffinityByProcesses.Select(
-                                cpuAffinityByProcessJsonItem =>
-                                    new Config.CPUAffinityByProcess(
-                                        new ProcessName(cpuAffinityByProcessJsonItem.processName),
-                                        new CPUAffinity(cpuAffinityByProcessJsonItem.cpuAffinity)
-                                    )
+                            configByProcessNameDictionary: jsonItem.configByProcessNameDictionary.ToDictionary(
+                                configByProcessNameDictonaryJsonItem => new ProcessName(configByProcessNameDictonaryJsonItem.Key),
+                                configByProcessNameDictonaryJsonItem => new Config.ConfigByProcessName(
+                                    new CPUAffinity(configByProcessNameDictonaryJsonItem.Value.cpuAffinity)
+                                )
                             )
-                            .ToArray()
                         );
                     }
             )
@@ -100,15 +94,14 @@ namespace Infrastructure
                 () =>
                     {
                         var jsonItem = new ConfigJsonItem(
-                            schemaVersion: config.schemaVersion.Value,
+                            schemaVersion: Config.schemaVersion.Value,
                             pollingInterval: config.pollingInterval.Value,
-                            cpuAffinityByProcesses: config.cpuAffinityByProcesses.Select(
-                                cpuAffinityByProcess => new CPUAffinityByProcessJsonItem(
-                                    processName: cpuAffinityByProcess.ProcessName.Value,
-                                    cpuAffinity: cpuAffinityByProcess.CPUAffinity.Value
+                            configByProcessNameDictionary: config.configByProcessNameDictionary.ToDictionary(
+                                configByProcess => configByProcess.Key.Value,
+                                configByProcess => new ConfigByProcessNameJsonItem(
+                                    cpuAffinity: configByProcess.Value.CPUAffinity.Value
                                 )
                             )
-                            .ToArray()
                         );
                         var jsonText = Serialize(jsonItem);
                         WriteTextFile(jsonText);

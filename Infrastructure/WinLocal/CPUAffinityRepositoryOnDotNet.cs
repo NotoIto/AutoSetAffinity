@@ -10,7 +10,7 @@ namespace Infrastructure
 {
     public class CPUAffinityRepositoryOnDotNet : ICPUAffinityRepository
     {
-        public Option<CPUAffinity, DomainDefinedError> Update(CPUAffinity cpuAffinity, Process process) =>
+        public Option<Process, DomainDefinedError> Update(Process process, CPUAffinity cpuAffinity) =>
             Try(
                 () =>
                     {
@@ -24,9 +24,9 @@ namespace Infrastructure
                         .ForEach(
                             thread => thread.ProcessorAffinity = (IntPtr)cpuAffinity.ToLong
                         );
-                        return cpuAffinity;
+                        return process;
                     }
             )
-            .ToOptionSystemError($"CPUAffinityRepositoryOnDotNet.Update({cpuAffinity}, {process})");
+            .ToOptionSystemError($"CPUAffinityRepositoryOnDotNet.Update({process}, {cpuAffinity})");
     }
 }
