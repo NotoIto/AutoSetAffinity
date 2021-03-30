@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace UseCase
 {
-    public class ModifyConfigService
+    public class ConfiguratorAppBase
     {
-        public class App : SetCPUAffinityService
+        public class App : DaemonAppBase
         {
             public App()
             {

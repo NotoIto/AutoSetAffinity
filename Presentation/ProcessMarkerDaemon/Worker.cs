@@ -1,6 +1,8 @@
+using Domain;
 using Infrastructure;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Optional;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +16,17 @@ namespace ProcessMarkerDaemon
     {
         private readonly ILogger<Worker> logger;
 
-        private class App : SetCPUAffinityService
+        private class App : DaemonAppBase
         {
-            public App()
+            protected App()
             {
                 configRepository = new ConfigRepositoryOnJsonFile();
                 cpuAffinityRepository = new CPUAffinityRepositoryOnDotNet();
                 processSearcher = new ProcessSearcherOnDotNet();
                 cpuInfoSearcher = new CPUInfoSearcherOnDotNet();
             }
+
+            public new static Option<App, DomainDefinedError> GetInstance() => GetInstanceInternal(new App());
         }
 
         private readonly App app;
@@ -30,16 +34,22 @@ namespace ProcessMarkerDaemon
         public Worker(ILogger<Worker> logger)
         {
             this.logger = logger;
-            app = new App();
+            app = App.GetInstance().Match(
+                some: app => app,
+                none: e => throw e
+                );
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-
-                //logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                //await Task.Delay(1000, stoppingToken);
+                await new Task(
+                    () =>
+                        app.Execute().MatchNone(
+                            e => logger.LogError(e.Message, e)
+                        )
+                );
             }
         }
     }
